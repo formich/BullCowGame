@@ -15,6 +15,7 @@ using int32 = int;
 void PrintIntro();
 FText GetValidGuess();
 bool AskToPlayAgain();
+void PrintGammeSummary();
 
 // Instantiate a new game
 FBullCowGame BCGame;
@@ -44,13 +45,14 @@ void PlayGame()
 		std::cout << ". Cows = " << BullCowCount.Cows << std::endl;
 		std::cout << "Your guess was: " << Guess << std::endl;
 	}
-	//TODO Summarize Game
+	PrintGammeSummary();
+	return;
 }
 
 void PrintIntro() {
 	// introduce the game
 	int32 HiddenWordLength = BCGame.GetHiddenWordLength();
-	std::cout << "Welcome to Bulls and Cows, a fun word game." << std::endl;
+	std::cout << "\n\nWelcome to Bulls and Cows, a fun word game." << std::endl;
 	std::cout << "Can you guess the " << HiddenWordLength << " letter isogram I'm thinking of?" << std::endl << std::endl;
 	return;
 }
@@ -63,7 +65,7 @@ FText GetValidGuess() {
 	do {
 		// get a guess from the player
 		int32 CurrentTry = BCGame.GetCurrentTry();
-		std::cout << "Try " << CurrentTry << ". Enter your guess: ";
+		std::cout << "\nTry " << CurrentTry << ". Enter your guess: ";
 		
 		std::getline(std::cin, Guess);
 
@@ -89,8 +91,15 @@ FText GetValidGuess() {
 }
 
 bool AskToPlayAgain() {
-	std::cout << "Do you want to play again? ";
+	std::cout << "Do you want to play again? (y/n)";
 	std::string Resposne;
 	std::getline(std::cin, Resposne);
 	return (Resposne[0] == 'y' || Resposne[0] == 'Y');
+}
+
+void PrintGammeSummary() {
+	if (BCGame.isGameWon())
+		std::cout << "YOU WIN!\n\n";
+	else
+		std::cout << "Better luck next time!\n\n";
 }
