@@ -38,7 +38,7 @@ public:
 
 // ^^ Please try and ignore this and focus on the interface above ^^
 private:
-	// See constructor for initialization
+	bool IsIsogram(FString) const;
 	int32 MyCurrentTry;
 	int32 MyMaxTries;
 	FString MyHiddenWord;
