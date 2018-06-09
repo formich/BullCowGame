@@ -1,11 +1,12 @@
+#pragma once
+
 #include "FBullCowGame.h"
 #include <map>
 
 void FBullCowGame::Reset()
 {
 	constexpr int32 MAX_TRIES = 8;
-	const FString  HIDDEN_WORD = "planet";
-	MyMaxTries = MAX_TRIES;
+	const FString  HIDDEN_WORD = "planet"; //this MUST be an isogram
 	MyHiddenWord = HIDDEN_WORD;
 	MyCurrentTry = 1;
 	bGameIsWon = false;
@@ -19,7 +20,8 @@ FBullCowGame::FBullCowGame()
 
 int32 FBullCowGame::GetMaxTries() const
 {
-	return MyMaxTries;
+	std::map<int32, int32> WordLengthToMaxTries{ {3,4} , {4,7} , {5,10}, {6,16} , {7,20} };
+	return WordLengthToMaxTries[MyHiddenWord.length()];
 }
 
 int32 FBullCowGame::GetCurrentTry() const
@@ -43,7 +45,7 @@ EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 	{
 		return EGuessStatus::Not_Isogram;
 	} 
-	else if (false) // if the guss is not all lowercase
+	else if (!isLowerCase(Guess)) // if the guss is not all lowercase
 	{
 		return EGuessStatus::Not_Lowercase;
 	}
@@ -106,4 +108,13 @@ bool FBullCowGame::IsIsogram(FString Word) const
 		}
 	}
 	return true; // for example in ase wehre /0 is entered
+}
+
+bool FBullCowGame::isLowerCase(FString Word) const
+{
+	for (auto Letter : Word) {
+		if (!islower(Letter))
+			return false;
+	}
+	return true;
 }
